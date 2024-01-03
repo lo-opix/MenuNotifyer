@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "got": "^14.0.0",
+    "pdf2pic": "^3.1.0",
+    "request": "^2.88.2",
+    "requests": "^0.3.0",
+    "tesseract.js": "^5.0.3"
+  }
+}
