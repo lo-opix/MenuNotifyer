@@ -1,9 +1,8 @@
 const { fromPath } = require("pdf2pic")
-const gm = require('gm');
 const { createWorker } = require('tesseract.js');
 const fs = require('fs');
 const request = require('request');
-const { log } = require("console");
+const sharp = require('sharp');
 
 const WEBKOOK = "https://discord.com/api/webhooks/1188050296480485376/OEOeTwfaa0D5vWgr0yvjQkDfQJ5lqp82cLS-NkHCF6fSYkKpQFao773sia90i3Qv-EhT"
 const ROLE_ID = "1191544854417780838"
@@ -55,14 +54,14 @@ async function getMenu() {
 }
 
 function cropMenu() {
-    const cropValues = [[15, 25, 260, 680, true], [15, 25, 740, 680, true], [15, 25, 1280, 680, true], [15, 25, 1840, 680, true], [15, 25, 2360, 680, true]]
+    const cropValues = [[440, 500, 260, 690], [440, 500, 740, 690], [440, 500, 1280, 690], [440, 500, 1840, 690], [440, 500, 2360, 690]]
 
     let u = 1
     let i = 1
     cropValues.forEach((e) => {
-        gm('./images/mainMenu.1.png')
-            .crop(e[0], e[1], e[2], e[3], e[4])
-            .write(`./images/crop${i}.png`, function (err) {
+        sharp('./images/mainMenu.1.png')
+            .extract({width:e[0], height:e[1], left:e[2], top:e[3]})
+            .toFile(`./images/crop${i}.png`, function (err) {
                 if (!err) {
                     console.log('Image ' + u + ' cropped !')
                     u++;
@@ -129,9 +128,9 @@ function getMonthNumber(dateStr) {
  * @return {[Boolean]}
  */
 async function checkDate() {
-    gm('./images/mainMenu.1.png')
-        .crop(60, 5, 650, 200, true)
-        .write(`./images/date.png`, function (err) {
+    sharp('./images/mainMenu.1.png')
+        .extract({width:1700, height:100, left:650, top:200})
+        .toFile(`./images/date.png`, function (err) {
             if (!err) console.log('Image Date cropped !');
         });
 
