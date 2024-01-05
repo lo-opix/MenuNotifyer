@@ -190,7 +190,8 @@ async function main(dlMenu = true) {
             'method': 'POST',
             'url': WEBKOOK,
             formData: {
-                'content': `__Menu du__ : **${currentDateFormatted}**` + menu[`day${currentDay}`] + `<@&${ROLE_ID}>`,
+                'content': menu[`day${currentDay}`] + `<@&${ROLE_ID}>`,
+                "username": "Menu du: " + currentDateFormatted
             }
         };
         request(options, function (error, response) {
