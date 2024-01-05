@@ -169,7 +169,7 @@ async function checkDate() {
 async function main(firstTime = true) {
     //Download Menu
     if (firstTime) {
-        createDayPicture()
+        await createDayPicture()
         imageURL = await uploadDatePicture()
         await downloadMenus()
     }
