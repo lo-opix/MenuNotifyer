@@ -8,6 +8,7 @@ const WEBKOOK = "https://discord.com/api/webhooks/1188050296480485376/OEOeTwfaa0
 const ROLE_ID = "1191544854417780838"
 const MENU_URL = "https://lycee-daguin.com/images/PDF/Menu/Menus.pdf"
 
+let MENU_DOWNLOADED = false;
 
 
 async function downloadMenus() {
@@ -20,11 +21,13 @@ async function downloadMenus() {
         }
     };
     console.log("Downloading menus...")
-    await request(options, (error, response) => {
+
+    //BUG: fs.writeFileSync finish after the end of the function
+    request(options, (error, response) => {
         fs.writeFileSync('./Menus.pdf', response.body, 'binary');
         console.log("Menus downloaded !")
+        MENU_DOWNLOADED = true
     });
-    
 }
 
 async function getMenu() {
@@ -161,9 +164,16 @@ async function checkDate() {
 }
 
 
-async function main() {
+async function main(dlMenu = true) {
     //Download Menu
-    await downloadMenus()
+    if(dlMenu) await downloadMenus()
+
+    //Loop: avoid cropping if the menu isn't fully saved yet
+    
+    if (MENU_DOWNLOADED != true){
+        setTimeout(() => main(false), 500)
+        return
+    }
     await getMenu()
     cropMenu()
     let menu = await readText()
