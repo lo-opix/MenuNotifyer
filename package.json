@@ -4,7 +4,9 @@
 		"test": "node test.js"
 	},
 	"dependencies": {
+		"canvas": "^2.11.2",
 		"pdf2pic": "^3.1.0",
+		"pureimage": "^0.4.13",
 		"request": "^2.88.2",
 		"sharp": "^0.33.1",
 		"tesseract.js": "^5.0.3"

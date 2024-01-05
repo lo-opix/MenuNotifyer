@@ -3,12 +3,14 @@ const { createWorker } = require('tesseract.js');
 const fs = require('fs');
 const request = require('request');
 const sharp = require('sharp');
+const { createDayPicture, uploadDatePicture } = require('./pictureDay.js')
 
 const WEBKOOK = "https://discord.com/api/webhooks/1188050296480485376/OEOeTwfaa0D5vWgr0yvjQkDfQJ5lqp82cLS-NkHCF6fSYkKpQFao773sia90i3Qv-EhT"
 const ROLE_ID = "1191544854417780838"
 const MENU_URL = "https://lycee-daguin.com/images/PDF/Menu/Menus.pdf"
 
 let MENU_DOWNLOADED = false;
+let imageURL = ""
 
 
 async function downloadMenus() {
@@ -63,7 +65,7 @@ function cropMenu() {
     let i = 1
     cropValues.forEach((e) => {
         sharp('./images/mainMenu.1.png')
-            .extract({width:e[0], height:e[1], left:e[2], top:e[3]})
+            .extract({ width: e[0], height: e[1], left: e[2], top: e[3] })
             .toFile(`./images/crop${i}.png`, function (err) {
                 if (!err) {
                     console.log('Image ' + u + ' cropped !')
@@ -132,7 +134,7 @@ function getMonthNumber(dateStr) {
  */
 async function checkDate() {
     sharp('./images/mainMenu.1.png')
-        .extract({width:1700, height:100, left:650, top:200})
+        .extract({ width: 1700, height: 100, left: 650, top: 200 })
         .toFile(`./images/date.png`, function (err) {
             if (!err) console.log('Image Date cropped !');
         });
@@ -164,13 +166,17 @@ async function checkDate() {
 }
 
 
-async function main(dlMenu = true) {
+async function main(firstTime = true) {
     //Download Menu
-    if(dlMenu) await downloadMenus()
+    if (firstTime) {
+        createDayPicture()
+        imageURL = await uploadDatePicture()
+        await downloadMenus()
+    }
 
     //Loop: avoid cropping if the menu isn't fully saved yet
-    
-    if (MENU_DOWNLOADED != true){
+
+    if (MENU_DOWNLOADED != true) {
         setTimeout(() => main(false), 500)
         return
     }
@@ -191,13 +197,18 @@ async function main(dlMenu = true) {
             'url': WEBKOOK,
             formData: {
                 'content': menu[`day${currentDay}`] + `<@&${ROLE_ID}>`,
-                "username": "Menu du: " + currentDateFormatted
+                "username": "Menu du: " + currentDateFormatted,
+                "avatar_url": imageURL,
             }
         };
-        request(options, function (error, response) {
-            if (error) throw new Error(error);
-            console.log(response.body);
-        });
+        console.log("Waiting 10s to send the message...")
+        setTimeout(() => {
+            console.log("Sending message...");
+            request(options, function (error, response) {
+                if (error) throw new Error(error);
+                console.log(response.body);
+            });
+        }, 10000)
     } else {
         console.error("ERROR: Weekend or not in the date range")
     }
