@@ -153,7 +153,7 @@ async function checkDate() {
     // secondDateStr[2] = the year
 
     const firstDate = new Date(secondDateStr[2], getMonthNumber(firstDateStr), firstDateStr[0])
-    const secondDate = new Date(secondDateStr[2], getMonthNumber(secondDateStr), secondDateStr[0])
+    const secondDate = new Date(secondDateStr[2], getMonthNumber(secondDateStr), secondDateStr[0], 23, 59, 59)
     const currentDate = new Date()
 
 
