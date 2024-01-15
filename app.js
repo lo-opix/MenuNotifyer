@@ -158,9 +158,11 @@ async function checkDate() {
 
 
     if (firstDate <= currentDate && secondDate >= currentDate) {
-        return true;
+        return 0;
+    } else if (currentDate.getDay() >= 1 && currentDate.getDay() <= 5) {
+        return -2; // Weekday but not in the date range
     } else {
-        return false;
+        return -1;
     }
 
 }
@@ -187,12 +189,13 @@ async function main(firstTime = true) {
 
 
 
+    const checkDateResult = await checkDate()
     //Send Message    
-    if (await checkDate()) {
+    if (checkDateResult == 0 || checkDateResult == -2) {
         currentDay = new Date().getDay()
         currentDateFormatted = new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
-        const options = {
+        let options = {
             'method': 'POST',
             'url': WEBKOOK,
             formData: {
@@ -201,6 +204,12 @@ async function main(firstTime = true) {
                 "avatar_url": imageURL,
             }
         };
+
+        if (checkDateResult == -2) {
+            options.formData.content = "Menu indisponible aujourd'hui !" + `<@&${ROLE_ID}>`
+            console.error("ERROR: Menu unavailable today")
+        }
+
         console.log("Waiting 10s to send the message...")
         setTimeout(() => {
             console.log("Sending message...");
@@ -210,7 +219,7 @@ async function main(firstTime = true) {
             });
         }, 10000)
     } else {
-        console.error("ERROR: Weekend or not in the date range")
+        console.error("ERROR: Weekend")
     }
 }
 
