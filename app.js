@@ -4,9 +4,8 @@ const fs = require('fs');
 const request = require('request');
 const sharp = require('sharp');
 const { createDayPicture, uploadDatePicture } = require('./pictureDay.js')
+const { WEBKOOK, ROLE_ID } = require('./secrets.json')
 
-const WEBKOOK = "https://discord.com/api/webhooks/1188050296480485376/OEOeTwfaa0D5vWgr0yvjQkDfQJ5lqp82cLS-NkHCF6fSYkKpQFao773sia90i3Qv-EhT"
-const ROLE_ID = "1191544854417780838"
 const MENU_URL = "https://lycee-daguin.com/images/PDF/Menu/Menus.pdf"
 
 let MENU_DOWNLOADED = false;
