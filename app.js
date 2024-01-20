@@ -206,7 +206,7 @@ async function main(firstTime = true) {
 
         if (checkDateResult == -2) {
             options.formData.content = "Menu indisponible aujourd'hui !" + `<@&${ROLE_ID}>`
-            console.error("ERROR: Menu unavailable today")
+            console.log("ERROR: Menu unavailable today")
         }
 
         console.log("Waiting 10s to send the message...")
@@ -218,7 +218,7 @@ async function main(firstTime = true) {
             });
         }, 10000)
     } else {
-        console.error("ERROR: Weekend")
+        console.log("ERROR: Weekend")
     }
 }
 
