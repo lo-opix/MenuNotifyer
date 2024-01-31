@@ -97,29 +97,29 @@ async function readText() {
 function getMonthNumber(dateStr) {
     let month = 0
 
-    if (dateStr[1] == "Janvier") {
+    if (dateStr[1] == "Janvier" || dateStr[1] == "JANVIER") {
         month = 0
-    } else if (dateStr[1] == "Février") {
+    } else if (dateStr[1] == "Février" || dateStr[1] == "FEVRIER") {
         month = 1
-    } else if (dateStr[1] == "Mars") {
+    } else if (dateStr[1] == "Mars" || dateStr[1] == "MARS") {
         month = 2
-    } else if (dateStr[1] == "Avril") {
+    } else if (dateStr[1] == "Avril" || dateStr[1] == "AVRIL") {
         month = 3
-    } else if (dateStr[1] == "Mai") {
+    } else if (dateStr[1] == "Mai" || dateStr[1] == "MAI") {
         month = 4
-    } else if (dateStr[1] == "Juin") {
+    } else if (dateStr[1] == "Juin" || dateStr[1] == "JUIN") {
         month = 5
-    } else if (dateStr[1] == "Juillet") {
+    } else if (dateStr[1] == "Juillet" || dateStr[1] == "JUILLET") {
         month = 6
-    } else if (dateStr[1] == "Août") {
+    } else if (dateStr[1] == "Août" || dateStr[1] == "AOUT") {
         month = 7
-    } else if (dateStr[1] == "Septembre") {
+    } else if (dateStr[1] == "Septembre" || dateStr[1] == "SEPTEMBRE") {
         month = 8
-    } else if (dateStr[1] == "Octobre") {
+    } else if (dateStr[1] == "Octobre" || dateStr[1] == "OCTOBRE") {
         month = 9
-    } else if (dateStr[1] == "Novembre") {
+    } else if (dateStr[1] == "Novembre" || dateStr[1] == "NOVEMBRE") {
         month = 10
-    } else if (dateStr[1] == "Décembre") {
+    } else if (dateStr[1] == "Décembre" || dateStr[1] == "DECEMBRE") {
         month = 11
     }
 
